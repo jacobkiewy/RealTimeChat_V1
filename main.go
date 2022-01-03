@@ -77,7 +77,7 @@ func handleIO(currentConn *WebSocketConnection, connections []*WebSocketConnecti
 		if err != nil {
 			if strings.Contains(err.Error(), "websocket: close") {
 				sendMessage(currentConn, MESSAGE_LEAVE, "")
-				ejectConnections(currentConn)
+				ejectConnection(currentConn)
 				return
 			}
 			log.Println("ERROR", err.Error())
@@ -87,7 +87,7 @@ func handleIO(currentConn *WebSocketConnection, connections []*WebSocketConnecti
 	}
 }
 
-func ejectConnections(currentConn *WebSocketConnection) {
+func ejectConnection(currentConn *WebSocketConnection) {
 	filtered := gubrak.From(connections).Reject(func(each *WebSocketConnection) bool {
 		return each == currentConn
 	}).Result()
